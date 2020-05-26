@@ -28,29 +28,29 @@ public class Hud {
     Label timeLabel;
 
 
-    public Hud(SpriteBatch sb){
+    public Hud(SpriteBatch sb) {
         time = 0;
         score = 0;
         lives = 3;
 
         viewport = new FitViewport(Fred.V_WIDTH, Fred.V_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport,sb);
+        stage = new Stage(viewport, sb);
 
         Table table = new Table();
-        table.bottom();
+        table.top();
         table.setFillParent(true);
 
         timeWordLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         livesWordLabel = new Label("LIVES", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreWordLabel =  new Label("SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreLabel =  new Label(String.format("%06d",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        livesLabel  = new Label(String.format("%03d", lives), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        scoreWordLabel = new Label("SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        livesLabel = new Label(String.format("%03d", lives), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         timeLabel = new Label(String.format("%06d", time), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
 
-        table.add(scoreWordLabel).expandX().padTop(10);
-        table.add(timeWordLabel).expandX().padTop(10);
-        table.add(livesWordLabel).expandX().padTop(10);
+        table.add(scoreWordLabel).expandX().padTop(3);
+        table.add(timeWordLabel).expandX().padTop(3);
+        table.add(livesWordLabel).expandX().padTop(3);
         table.row();
         table.add(scoreLabel).expandX();
         table.add(timeLabel).expandX();
