@@ -9,6 +9,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -20,10 +21,12 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class PlayScreen implements Screen {
     private FredGame game;
+    private TextureAtlas atlas;
+
+
     private OrthographicCamera gamecam;
     private Viewport gamePort;
     private Hud hud;
-    private Fred player;
 
 
     //Tiled map variables
@@ -35,10 +38,14 @@ public class PlayScreen implements Screen {
     private World world;
     private Box2DDebugRenderer b2dr;
 
+    private Fred player;
 
 
 
     public PlayScreen(FredGame game) {
+        atlas = new TextureAtlas("Fred_and_Enemies.pack");
+
+
         this.game = game;
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(FredGame.V_WIDTH / FredGame.PPM, FredGame.V_HEIGHT / FredGame.PPM, gamecam);
@@ -55,7 +62,11 @@ public class PlayScreen implements Screen {
         new B2WorldCreator(world,map);
 
 
-        player = new Fred(world);
+        player = new Fred(world,this);
+    }
+
+    public TextureAtlas getAtlas(){
+        return atlas;
     }
 
     @Override
@@ -83,6 +94,8 @@ public class PlayScreen implements Screen {
         world.step(1/60f,3,2);
         gamecam.position.x = player.b2body.getPosition().x;
 
+        player.update(dt);
+
 
         gamecam.update();
         renderer.setView(gamecam);
@@ -103,6 +116,12 @@ public class PlayScreen implements Screen {
 
         //renderer our Box2DDebugLines
         b2dr.render(world,gamecam.combined);
+
+        game.batch.setProjectionMatrix(gamecam.combined);
+        game.batch.begin();
+        player.draw(game.batch);
+        game.batch.end();
+
 
 
 
