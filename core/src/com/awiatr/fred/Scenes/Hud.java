@@ -18,13 +18,14 @@ public class Hud implements Disposable {
     private Viewport viewport;
 
     private Integer time;
-    private Integer score;
+    private static Integer score;
     private Integer lives;
+    private float timeCount;
 
     Label timeWordLabel;
     Label livesWordLabel;
     Label scoreWordLabel;
-    Label scoreLabel;
+    static Label  scoreLabel;
     Label livesLabel;
     Label timeLabel;
 
@@ -33,6 +34,7 @@ public class Hud implements Disposable {
         time = 300;
         score = 0;
         lives = 3;
+        timeCount = 0;
 
         viewport = new FitViewport(FredGame.V_WIDTH, FredGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
@@ -63,5 +65,19 @@ public class Hud implements Disposable {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    public void update(float dt){
+        timeCount += dt;
+        if(timeCount >= 1){
+            time--;
+            timeLabel.setText(String.format("%06d", time));
+            timeCount = 0;
+        }
+    }
+
+    public static void addScore(int value){
+        score += value;
+        scoreLabel.setText(String.format("%06d", score));
     }
 }

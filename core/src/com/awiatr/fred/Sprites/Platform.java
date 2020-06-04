@@ -11,4 +11,9 @@ public class Platform extends InteractiveTileObject {
 
 
     }
+
+    @Override
+    public void onHit() {
+
+    }
 }

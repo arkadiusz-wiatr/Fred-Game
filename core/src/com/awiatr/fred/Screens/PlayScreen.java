@@ -4,9 +4,11 @@ import com.awiatr.fred.FredGame;
 import com.awiatr.fred.Scenes.Hud;
 import com.awiatr.fred.Sprites.Fred;
 import com.awiatr.fred.Tools.B2WorldCreator;
+import com.awiatr.fred.Tools.WorldContactListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -40,6 +42,8 @@ public class PlayScreen implements Screen {
 
     private Fred player;
 
+    private Music music;
+
 
 
     public PlayScreen(FredGame game) {
@@ -63,6 +67,12 @@ public class PlayScreen implements Screen {
 
 
         player = new Fred(world,this);
+
+        world.setContactListener(new WorldContactListener());
+
+        music = FredGame.manager.get("audio/fred.ogg", Music.class);
+        music.setLooping(true);
+        music.play();
     }
 
     public TextureAtlas getAtlas(){
@@ -95,6 +105,7 @@ public class PlayScreen implements Screen {
         gamecam.position.x = player.b2body.getPosition().x;
 
         player.update(dt);
+        hud.update(dt);
 
 
         gamecam.update();
