@@ -18,7 +18,7 @@ public class Hud implements Disposable {
     private Viewport viewport;
 
     private Integer time;
-    private static Integer score;
+    public static Integer score;
     private Integer lives;
     private float timeCount;
 
@@ -33,7 +33,7 @@ public class Hud implements Disposable {
     public Hud(SpriteBatch sb) {
         time = 300;
         score = 0;
-        lives = 3;
+
         timeCount = 0;
 
         viewport = new FitViewport(FredGame.V_WIDTH, FredGame.V_HEIGHT, new OrthographicCamera());
@@ -44,20 +44,16 @@ public class Hud implements Disposable {
         table.setFillParent(true);
 
         timeWordLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        livesWordLabel = new Label("LIVES", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreWordLabel = new Label("SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        livesLabel = new Label(String.format("%03d", lives), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         timeLabel = new Label(String.format("%06d", time), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
 
         table.add(scoreWordLabel).expandX().padTop(3);
         table.add(timeWordLabel).expandX().padTop(3);
-        table.add(livesWordLabel).expandX().padTop(3);
         table.row();
         table.add(scoreLabel).expandX();
         table.add(timeLabel).expandX();
-        table.add(livesLabel).expandX();
 
         stage.addActor(table);
     }

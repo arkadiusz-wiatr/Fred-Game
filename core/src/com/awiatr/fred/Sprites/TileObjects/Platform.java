@@ -1,5 +1,6 @@
-package com.awiatr.fred.Sprites;
+package com.awiatr.fred.Sprites.TileObjects;
 
+import com.awiatr.fred.Sprites.TileObjects.InteractiveTileObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;

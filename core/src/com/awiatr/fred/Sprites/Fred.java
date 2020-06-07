@@ -5,7 +5,6 @@ import com.awiatr.fred.Screens.PlayScreen;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -16,13 +15,9 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
-
-
-import javax.xml.soap.Text;
-
 public class Fred extends Sprite {
 
-    public enum State {FALLING,JUMPING,STANDING,RUNNING};
+    public enum State {FALLING,JUMPING,STANDING,RUNNING,DEAD};
     public State currentState;
     public State previousState;
 
@@ -35,6 +30,7 @@ public class Fred extends Sprite {
 
     private float stateTimer;
     private boolean runningRight;
+    private boolean fredIsDead;
 
     protected Fixture fixture;
 
@@ -103,10 +99,14 @@ public class Fred extends Sprite {
         return region;
     }
 
+    public boolean isDead(){return fredIsDead;}
+
     public State getState(){
-        if(b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING))
+        if(fredIsDead)
+            return State.DEAD;
+        else if(b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING))
             return State.JUMPING;
-        if(b2body.getLinearVelocity().y < 0)
+        else if(b2body.getLinearVelocity().y < 0)
             return State.FALLING;
         else if(b2body.getLinearVelocity().x != 0)
             return State.RUNNING;
@@ -114,7 +114,17 @@ public class Fred extends Sprite {
             return State.STANDING;
     }
 
-    public void defineFred(){
+
+
+    public void jump() {
+        if (currentState != State.JUMPING) {
+            b2body.applyLinearImpulse(new Vector2(0, 3f), b2body.getWorldCenter(), true);
+            currentState = State.JUMPING;
+        }
+    }
+
+
+            public void defineFred(){
         BodyDef bdef = new BodyDef();
         bdef.position.set(32 / FredGame.PPM ,32 / FredGame.PPM );
         bdef.type = BodyDef.BodyType.DynamicBody;
@@ -122,9 +132,9 @@ public class Fred extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(5 / FredGame.PPM );
+        shape.setRadius(7 / FredGame.PPM );
         fdef.filter.categoryBits = FredGame.FRED_BIT;
-        fdef.filter.maskBits = FredGame.DEFAULT_BIT | FredGame.POINTS_BIT;
+        fdef.filter.maskBits = FredGame.GROUND_BIT | FredGame.POINTS_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef);

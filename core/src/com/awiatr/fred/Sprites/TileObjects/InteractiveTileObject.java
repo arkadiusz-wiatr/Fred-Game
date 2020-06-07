@@ -1,4 +1,4 @@
-package com.awiatr.fred.Sprites;
+package com.awiatr.fred.Sprites.TileObjects;
 
 import com.awiatr.fred.FredGame;
 import com.badlogic.gdx.maps.tiled.TiledMap;

@@ -5,6 +5,7 @@ import com.awiatr.fred.Scenes.Hud;
 import com.awiatr.fred.Sprites.Fred;
 import com.awiatr.fred.Tools.B2WorldCreator;
 import com.awiatr.fred.Tools.WorldContactListener;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -22,6 +23,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class PlayScreen implements Screen {
+
+    private int livesCounter = 0;
     private FredGame game;
     private TextureAtlas atlas;
 
@@ -86,7 +89,7 @@ public class PlayScreen implements Screen {
     public void handleInput(float dt) {
 
     if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
-        player.b2body.applyLinearImpulse(new Vector2(0,3f), player.b2body.getWorldCenter(),true);
+        player.jump();
     if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 2)
         player.b2body.applyLinearImpulse(new Vector2(0.05f,0), player.b2body.getWorldCenter(),true);
     if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x <= 2)
@@ -110,6 +113,7 @@ public class PlayScreen implements Screen {
 
         gamecam.update();
         renderer.setView(gamecam);
+
 
     }
 
@@ -140,7 +144,22 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
+        if(player.b2body.getPosition().y < -1.5) {
+            gamecam.position.x = player.b2body.getPosition().x;
+            game.setScreen(new GameOverScreen(game));
+            dispose();
+        } else if(player.b2body.getPosition().x > 20.5){
+            gamecam.position.x = player.b2body.getPosition().x;
+            game.setScreen(new GameWinScreen(game));
+            Hud.addScore(500);
+            dispose();
+        }
 
+
+    }
+
+    public World getWorld(){
+        return world;
     }
 
     @Override

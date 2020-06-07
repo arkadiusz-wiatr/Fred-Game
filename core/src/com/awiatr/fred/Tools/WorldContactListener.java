@@ -1,6 +1,6 @@
 package com.awiatr.fred.Tools;
 
-import com.awiatr.fred.Sprites.InteractiveTileObject;
+import com.awiatr.fred.Sprites.TileObjects.InteractiveTileObject;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;

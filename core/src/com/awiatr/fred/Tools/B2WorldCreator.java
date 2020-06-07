@@ -1,9 +1,8 @@
 package com.awiatr.fred.Tools;
 
 import com.awiatr.fred.FredGame;
-import com.awiatr.fred.Sprites.Fred;
-import com.awiatr.fred.Sprites.Platform;
-import com.awiatr.fred.Sprites.Points;
+import com.awiatr.fred.Sprites.TileObjects.Platform;
+import com.awiatr.fred.Sprites.TileObjects.Points;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
